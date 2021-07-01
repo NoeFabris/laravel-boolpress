@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Posts;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,10 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Posts::all();
+        return view('admin.posts.index', [
+           'posts' =>  $posts
+        ]);
     }
 
     /**
@@ -24,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -35,7 +40,22 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newPostData = $request->all();
+
+        $request->validate([
+
+            'title'=>'required',
+            'post'=>'required'
+
+        ]);
+
+        $newPost = new Posts();
+
+        $newPost->fill($newPostData);
+        // $newPost->user = Auth::user()->name;
+        $newPost->save();
+
+        return redirect()->route('admin.posts.show', $newPost->id);
     }
 
     /**
@@ -44,9 +64,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Posts $post)
     {
-        //
+        return view('admin.posts.show', [
+            'post' => $post
+        ]);
     }
 
     /**
@@ -55,9 +77,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Posts $post)
     {
-        //
+        return view('admin.posts.edit', [
+            'post' => $post
+        ]);
     }
 
     /**
@@ -67,9 +91,19 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Posts $post)
     {
-        //
+        $request->validate([
+
+            'title'=>'required',
+            'post'=>'required'
+
+        ]);
+        
+        $formData = $request->all();
+        $post->update($formData);
+
+        return redirect()->route('admin.posts.show', $post->id);
     }
 
     /**

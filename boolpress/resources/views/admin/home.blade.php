@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __("Benvenuto") }}
+                    <ul>
+                        <li><a href="{{ route('admin.posts.index') }}">Index</a></li>
+                        <li><a href="{{ route('admin.posts.create') }}">Create</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
