@@ -14,11 +14,13 @@
                         </div>
                     @endif
 
-                    {{ __("Benvenuto") }}
-                    <ul>
-                        <li><a href="{{ route('admin.posts.index') }}">Index</a></li>
-                        <li><a href="{{ route('admin.posts.create') }}">Create</a></li>
-                    </ul>
+                    {{-- {{ __("Benvenuto") }} --}}
+                    <div class='d-flex justify-content-center'>
+                    
+                        <a class='px-2' href="{{ route('admin.posts.index') }}"><button class='btn btn-primary'>Visualizza tutti i post</button></a>
+                        <a class='px-2' href="{{ route('admin.posts.create') }}"><button class='btn btn-primary'>Crea un post</button></a>
+
+                    </div>
                 </div>
             </div>
         </div>

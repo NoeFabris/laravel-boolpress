@@ -7,9 +7,13 @@
             <div class="card">
                 <div class="card-header">
 
-                    {{ __('Dashboard') }}
-                    <button><a href="{{route('admin.index')}}">Torna alla Home</a></button>
-                    <button><a href="{{route('admin.posts.index')}}">Torna all'Index</a></button>
+                    {{-- <div class='d-flex flex-row'>
+                        {{ __('Dashboard') }} 
+                    </div> --}}
+                    <div class='d-flex flex-row-reverse'>
+                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
+                    </div>
 
                 </div>
 
@@ -24,16 +28,17 @@
                     <form action="{{ route('admin.posts.store')}}" method="post">
                         @csrf
                     
-                        <label for="title">Title</label>
-                        <input type="text" name='title' id='title'>
+                        <label class='py-2 m-0' for="title">Title</label>
+                        <input class="form-control" type="text" name='title' id='title'>
                     
-                        <label for="post">Post</label>
-                        <input type="text" name='post' id='post'>
+                        <label class='py-2 m-0' for="content">Post</label>
+                        <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
+                        {{-- <input class="form-control" type="text"  id='content'> --}}
 
-                        <label for="user">User</label>
-                        <input type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly>
+                        <label class='py-2 m-0' for="user">User</label>
+                        <input class="form-control" type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly>
 
-                        <input type="submit" value='Invia'>
+                        <input class='btn btn-primary mt-2' type="submit" value='Publish'>
 
                     </form>
                 </div>

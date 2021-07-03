@@ -8,8 +8,10 @@
                 <div class="card-header">
 
                     {{ __('Dashboard') }}
-                    <button><a href="{{route('admin.index')}}">Torna alla Home</a></button>
-                    <button><a href="{{route('admin.posts.index')}}">Torna all'Index</a></button>
+                    <div class='d-flex flex-row-reverse'>
+                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
+                    </div>
 
                 </div>
 
@@ -29,7 +31,7 @@
                         <input type="text" name='title' id='title' value='{{ $post->title }}'>
                     
                         <label for="post">Post</label>
-                        <input type="text" name='post' id='post' value='{{ $post->post }}'>
+                        <input type="text" name='post' id='post' value='{{ $post->content }}'>
 
                         <label for="user">User</label>
                         <input type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly>

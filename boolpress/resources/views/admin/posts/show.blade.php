@@ -7,11 +7,13 @@
             <div class="card">
                 <div class="card-header">
                 
-                    {{ __('Dashboard') }}
-                    <button><a href="{{route('admin.index')}}">Torna alla Home</a></button>
-                    <button><a href="{{route('admin.posts.index')}}">Torna all'Index</a></button>
-                    <button><a href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a></button>
-                    <button><a href="{{route('admin.posts.create')}}">Crea un post</a></button>
+                    {{-- {{ __('Dashboard') }} --}}
+                    <div class='d-flex flex-row-reverse'>
+                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
+                        <a class='py-2' href="{{ route('admin.posts.edit', $post->id) }}""><button class='btn btn-primary'>Modifica</button></a>
+                        <a class='py-2' href="{{route('admin.posts.create')}}"><button class='btn btn-primary'>Crea un post</button></a>
+                    </div>
                 
                 </div>
 
@@ -25,8 +27,8 @@
                     <div>
 
                         <h1>{{ $post->title }}</h1>
-                        <p>{{ $post->post }}</p>
-                        <p>Pubblicato da: {{ $post->user }}</p>
+                        <p>{{ $post->content }}</p>
+                        <p>Pubblicato da: {{ $post->user_id }}</p>
                         <p>Ora pubblicazione: {{ $post->created_at }}</p>
 
                     </div>
