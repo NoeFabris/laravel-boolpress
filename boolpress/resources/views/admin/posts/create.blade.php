@@ -35,8 +35,8 @@
                         <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
                         {{-- <input class="form-control" type="text"  id='content'> --}}
 
-                        <label class='py-2 m-0' for="user">User</label>
-                        <input class="form-control" type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly>
+                        {{-- <label class='py-2 m-0' for="user">User</label>
+                        <input class="form-control" type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly> --}}
 
                         <input class='btn btn-primary mt-2' type="submit" value='Publish'>
 

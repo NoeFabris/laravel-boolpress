@@ -18,10 +18,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Posts::all();
-        return view('admin.posts.index', [
-           'posts' =>  $posts
-        ]);
+        $posts = [
+            'posts' => Posts::orderBy('created_at', 'DESC')->get()
+        ];
+        return view('admin.posts.index', $posts);
     }
 
     /**
@@ -42,22 +42,38 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $newPostData = $request->all();
-
+        
         $request->validate([
-
+            
             'title'=>'required',
-            'post'=>'required'
-
+            'content'=>'required'
+            
         ]);
-
+        
+        $newPostData = $request->all();
         $newPost = new Posts();
-
         $newPost->fill($newPostData);
+        $newPost->user_id = $request->user()->id;
+
+
+        $slug = Str::slug($newPost->title);
+        $slugBase = $slug;
+
+        $postPresente = Posts::where('slug', $slug)->first();
+        $contatore = 1;
+
+        while($postPresente){
+            $slug = $slugBase . '-' . $contatore;
+            $contatore++;
+            $postPresente = Posts::where('slug', $slug)->first();
+        }
+
+        $newPost->slug = $slug;
+        // $newPost->user_id = 1;
         // $newPost->user = Auth::user()->name;
         $newPost->save();
 
-        return redirect()->route('admin.posts.show', $newPost->id);
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -66,11 +82,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Posts $post)
+    public function show($slug)
     {
-        return view('admin.posts.show', [
-            'post' => $post
-        ]);
+        $post = Posts::where('slug', $slug)->first();
+
+        if(!$post) {
+            abort(404);
+        }
+
+        $data = ['post' => $post];
+
+        return view('admin.posts.show', $data);
     }
 
     /**
@@ -79,11 +101,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Posts $post)
+    public function edit($slug)
     {
-        return view('admin.posts.edit', [
-            'post' => $post
-        ]);
+        $post = Posts::where('slug', $slug)->first();
+
+        // if(!$post) {
+        //     abort(404);
+        // }
+
+        $data = ['post' => $post];
+
+        return view('admin.posts.edit', $data);
+
+        // return view('admin.posts.edit', [
+        //     'post' => $post
+        // ]);
     }
 
     /**
@@ -93,19 +125,35 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Posts $post)
+    public function update(Request $request, $slug)
     {
+        $post = Posts::where('slug', $slug)->first();
+
         $request->validate([
 
             'title'=>'required',
-            'post'=>'required'
+            'content'=>'required'
 
         ]);
         
         $formData = $request->all();
+
+        if ($formData['title'] != $post->title) {
+            $slug = Str::slug($formData['title']);
+            $slug_base = $slug;
+            $postPresente = Posts::where('slug', $slug)->first();
+            $contatore = 1;
+            while ($postPresente) {
+                $slug = $slug_base . '-' . $contatore;
+                $contatore++;
+                $postPresente = Posts::where('slug', $slug)->first();
+            }
+            $formData['slug'] = $slug;
+        }
+
         $post->update($formData);
 
-        return redirect()->route('admin.posts.show', $post->id);
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -114,8 +162,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $post = Posts::where('slug', $slug)->first();
+
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }

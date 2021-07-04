@@ -7,7 +7,10 @@
             <div class="card">
                 <div class="card-header">
                 
-                    <button><a href="{{route('index')}}">Torna alla Home</a></button>
+                    <div class='d-flex flex-row-reverse'>
+                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
+                    </div>
                 
                 </div>
 
@@ -16,10 +19,11 @@
                     @foreach($posts as $post)
                         <div>
                             <h1>{{ $post->title }}</h1>
-                            <p>{{ $post->post }}</p>
-                            <p>Pubblicato da: {{ $post->user }}</p>
-                            {{-- <button><a href="{{ route('posts.show', $post->id) }}">Dettagli</a></button> --}}
+                            <p>{{ $post->content }}</p>
+                            <p>Pubblicato da: {{ $post->user_id }}</p>
+                            <button><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">Dettagli</a></button> 
                             {{-- <button><a href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a></button> --}}
+
                         </div>
                     @endforeach
 

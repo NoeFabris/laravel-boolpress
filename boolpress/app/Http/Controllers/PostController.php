@@ -8,9 +8,21 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index() {
-        $data = [
-            'posts' => Posts::all()
+        $posts = [
+            'posts' => Posts::orderBy('created_at', 'DESC')->get()
         ];
-        return view('posts.index', $data);
+        return view('posts.index', $posts);
+    }
+
+    public function show($slug){
+        $post = Posts::where('slug', $slug)->first();
+
+        if(!$post) {
+            abort(404);
+        }
+
+        $data = ['post' => $post];
+
+        return view('posts.show', $data);
     }
 }

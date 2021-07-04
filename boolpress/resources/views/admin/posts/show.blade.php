@@ -11,7 +11,7 @@
                     <div class='d-flex flex-row-reverse'>
                         <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
                         {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
-                        <a class='py-2' href="{{ route('admin.posts.edit', $post->id) }}""><button class='btn btn-primary'>Modifica</button></a>
+                        <a class='py-2' href="{{ route('admin.posts.edit', $post->slug) }}"><button class='btn btn-primary'>Modifica</button></a>
                         <a class='py-2' href="{{route('admin.posts.create')}}"><button class='btn btn-primary'>Crea un post</button></a>
                     </div>
                 
