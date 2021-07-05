@@ -11,7 +11,7 @@
                         {{ __('Dashboard') }} 
                     </div> --}}
                     <div class='d-flex flex-row-reverse'>
-                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        <a class='px-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
                         {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
                     </div>
 
@@ -33,10 +33,15 @@
                     
                         <label class='py-2 m-0' for="content">Post</label>
                         <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
-                        {{-- <input class="form-control" type="text"  id='content'> --}}
 
-                        {{-- <label class='py-2 m-0' for="user">User</label>
-                        <input class="form-control" type="text" name='user' id='user' value='{{ Auth::user()->name }}' readonly> --}}
+
+                        <label>Category</label>
+                        <select name="category_id" class='form-control' id="">
+                            <option value="">Choose a category</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
 
                         <input class='btn btn-primary mt-2' type="submit" value='Publish'>
 

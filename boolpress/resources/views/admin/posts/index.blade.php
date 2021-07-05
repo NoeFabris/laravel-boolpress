@@ -9,8 +9,8 @@
                 
                     {{-- {{ __('Dashboard') }} --}}
                     <div class='d-flex flex-row-reverse'>
-                        <a class='py-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
-                        <a class='py-2' href="{{route('admin.posts.create')}}"><button class='btn btn-primary'>Crea un post</button></a>
+                        <a class='px-2' href="{{route('admin.index')}}"><button class='btn btn-primary'>Torna alla Home</button></a>
+                        <a class='px-2' href="{{route('admin.posts.create')}}"><button class='btn btn-primary'>Crea un post</button></a>
                         {{-- <a class='p-2' href="{{route('admin.posts.index')}}"><button class='btn btn-primary'>Torna all'Index</button></a> --}}
                     </div>
                 
@@ -29,9 +29,10 @@
 
                             <h1>{{ $post->title }}</h1>
                             <p>{{ $post->content }}</p>
-                            <p>Pubblicato da: {{ $post->user_id }}</p>
+                            <p>Categoria : {{ $post->category->name }}</p>
+                            <p>Pubblicato da: {{ $post->user->name }}</p>
                             <a href="{{ route('admin.posts.show', $post->slug) }}"><button class='btn btn-info'>Dettagli</button></a>
-                            <a href="{{ route('admin.posts.edit', $post->slug) }}"><button class='btn btn-info'>Modifica</button></a>
+                            <a class='px-2' href="{{ route('admin.posts.edit', $post->slug) }}"><button class='btn btn-info'>Modifica</button></a>
                             <form class="d-inline-block" action="{{ route('admin.posts.destroy', $post->slug) }}" method="post">
                                 @csrf
                                 @method('DELETE')

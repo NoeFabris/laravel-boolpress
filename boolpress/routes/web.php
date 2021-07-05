@@ -45,3 +45,4 @@ route::prefix('admin')
 
         // Route::resource("/posts", "PostController");
     });
+

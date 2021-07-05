@@ -20,7 +20,7 @@
 
                         <h1>{{ $post->title }}</h1>
                         <p>{{ $post->content }}</p>
-                        <p>Pubblicato da: {{ $post->user_id }}</p>
+                        <p>Pubblicato da: {{ $post->user->name }}</p>
                         <p>Ora pubblicazione: {{ $post->created_at }}</p>
 
                     </div>

@@ -20,16 +20,15 @@
                         <div>
                             <h1>{{ $post->title }}</h1>
                             <p>{{ $post->content }}</p>
-                            <p>Pubblicato da: {{ $post->user_id }}</p>
-                            <button><a href="{{ route('posts.show', ['slug' => $post->slug]) }}">Dettagli</a></button> 
-                            {{-- <button><a href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a></button> --}}
+                            <p>Pubblicato da: {{ $post->user->name }}</p>
+                            <a href="{{ route('posts.show', $post->slug) }}"><button class='btn btn-info'>Dettagli</button></a>
 
                         </div>
                     @endforeach
 
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 @endsection

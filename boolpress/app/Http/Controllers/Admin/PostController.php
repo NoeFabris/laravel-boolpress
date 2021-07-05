@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Posts;
+use App\Category;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,12 +17,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = [
+        $data = [
             'posts' => Posts::orderBy('created_at', 'DESC')->get()
         ];
-        return view('admin.posts.index', $posts);
+        return view('admin.posts.index', $data);
     }
 
     /**
@@ -31,7 +32,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+
+        return view('admin.posts.create', ["categories" => $categories]);
     }
 
     /**
@@ -46,7 +49,8 @@ class PostController extends Controller
         $request->validate([
             
             'title'=>'required',
-            'content'=>'required'
+            'content'=>'required',
+            'category_id' => "nullable|exists:categories,id"
             
         ]);
         
@@ -90,9 +94,10 @@ class PostController extends Controller
             abort(404);
         }
 
-        $data = ['post' => $post];
+        $user = $post->user ;
+        // $data = ['post' => $post];
 
-        return view('admin.posts.show', $data);
+        return view('admin.posts.show', ['post' => $post, 'user' => $user]);
     }
 
     /**
@@ -103,13 +108,19 @@ class PostController extends Controller
      */
     public function edit($slug)
     {
+        $categories = Category::all();
+
+
         $post = Posts::where('slug', $slug)->first();
 
         // if(!$post) {
         //     abort(404);
         // }
 
-        $data = ['post' => $post];
+        $data = [
+            'post' => $post,
+            'categories' => $categories
+        ];
 
         return view('admin.posts.edit', $data);
 
