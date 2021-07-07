@@ -17,17 +17,21 @@
                 </div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
                     <div>
 
                         <h1>{{ $post->title }}</h1>
                         <p>{{ $post->content }}</p>
                         <p>Categoria : {{ $post->category->name }}</p>
+                        <p>Tags:
+                            @foreach($post->tags as $tag)
+                                <span class="badge badge-primary">{{ $tag->name }}</span>
+                            @endforeach
+                            @if(count($post->tags) > 0)
+                            @else
+                                <em>Nessun tag disponibile...</em>
+                            @endif
+                        </p>
                         <p>Pubblicato da: {{ $user->name }}</p> 
                         <p>Ora pubblicazione: {{ $post->created_at }}</p>
 

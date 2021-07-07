@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Posts;
+use App\Post;
 use App\Category;
+use App\Tag;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'posts' => Posts::orderBy('created_at', 'DESC')->get()
+            'posts' => Post::orderBy('created_at', 'DESC')->get()
         ];
         return view('admin.posts.index', $data);
     }
@@ -33,8 +35,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.create', ["categories" => $categories]);
+        return view('admin.posts.create', ["categories" => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -50,12 +53,13 @@ class PostController extends Controller
             
             'title'=>'required',
             'content'=>'required',
-            'category_id' => "nullable|exists:categories,id"
+            'category_id' => "nullable|exists:categories,id",
+            'tags'=>'exists:tags,id'
             
         ]);
         
         $newPostData = $request->all();
-        $newPost = new Posts();
+        $newPost = new Post();
         $newPost->fill($newPostData);
         $newPost->user_id = $request->user()->id;
 
@@ -63,13 +67,13 @@ class PostController extends Controller
         $slug = Str::slug($newPost->title);
         $slugBase = $slug;
 
-        $postPresente = Posts::where('slug', $slug)->first();
+        $postPresente = Post::where('slug', $slug)->first();
         $contatore = 1;
 
         while($postPresente){
             $slug = $slugBase . '-' . $contatore;
             $contatore++;
-            $postPresente = Posts::where('slug', $slug)->first();
+            $postPresente = Post::where('slug', $slug)->first();
         }
 
         $newPost->slug = $slug;
@@ -88,7 +92,7 @@ class PostController extends Controller
      */
     public function show($slug)
     {
-        $post = Posts::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         if(!$post) {
             abort(404);
@@ -96,7 +100,6 @@ class PostController extends Controller
 
         $user = $post->user ;
         // $data = ['post' => $post];
-
         return view('admin.posts.show', ['post' => $post, 'user' => $user]);
     }
 
@@ -109,9 +112,10 @@ class PostController extends Controller
     public function edit($slug)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
 
-        $post = Posts::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         // if(!$post) {
         //     abort(404);
@@ -119,7 +123,8 @@ class PostController extends Controller
 
         $data = [
             'post' => $post,
-            'categories' => $categories
+            'categories' => $categories,
+            'tags' => $tags
         ];
 
         return view('admin.posts.edit', $data);
@@ -138,12 +143,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $post = Posts::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         $request->validate([
 
             'title'=>'required',
-            'content'=>'required'
+            'content'=>'required',
+            'category_id'=>'nullable|exists:categories,id',
+            'tags'=>'exists:tags,id'
 
         ]);
         
@@ -152,15 +159,24 @@ class PostController extends Controller
         if ($formData['title'] != $post->title) {
             $slug = Str::slug($formData['title']);
             $slug_base = $slug;
-            $postPresente = Posts::where('slug', $slug)->first();
+            $postPresente = Post::where('slug', $slug)->first();
             $contatore = 1;
             while ($postPresente) {
                 $slug = $slug_base . '-' . $contatore;
                 $contatore++;
-                $postPresente = Posts::where('slug', $slug)->first();
+                $postPresente = Post::where('slug', $slug)->first();
             }
             $formData['slug'] = $slug;
         }
+ 
+        if (!key_exists('tags', $formData)) {
+            $formData['tags'] = []; 
+        }
+
+        $post->tags()->detach();
+        $post->tags()->attach($formData['tags']);
+
+        // $post->tags()->sync($formData['tags']);
 
         $post->update($formData);
 
@@ -175,7 +191,7 @@ class PostController extends Controller
      */
     public function destroy($slug)
     {
-        $post = Posts::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         $post->delete();
         return redirect()->route('admin.posts.index');

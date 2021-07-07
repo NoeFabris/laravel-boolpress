@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Posts;
+use App\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index() {
         $posts = [
-            'posts' => Posts::orderBy('created_at', 'DESC')->get()
+            'posts' => Post::orderBy('created_at', 'DESC')->get()
         ];
         return view('posts.index', $posts);
     }
 
     public function show($slug){
-        $post = Posts::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         if(!$post) {
             abort(404);

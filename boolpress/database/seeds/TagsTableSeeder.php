@@ -13,7 +13,7 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        $tags = ['Tag1', 'Tag2', 'Tag 3', 'Tag 4', 'Tag5'];
+        $tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5'];
 
         foreach ($tags as $tag) {
             $newTag = new Tag();

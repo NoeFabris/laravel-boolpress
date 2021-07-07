@@ -26,22 +26,53 @@
                     <form action="{{ route('admin.posts.update', $post->slug)}}" method="post">
                         @csrf
                         @method('PUT')
-                    
-                        <label class='px-2 m-0' for="title">Title</label>
-                        <input class="form-control" type="text" name='title' id='title' value='{{ $post->title }}'>
-                    
-                        <label class='px-2 m-0' for="content">Post</label>
-                        <textarea class="form-control" rows="5" cols="80" id="content" name='content'>{{ $post->content }}</textarea>
-
-                        <label>Category</label>
-                        <select name="category_id" class='form-control' id="">
-                            <option value="">Choose a category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $category->id == old('category_id', $post->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                        <div class="form-group">
+                        
+                            <label class='px-2 m-0' for="title">Title</label>
+                            <input class="form-control" type="text" name='title' id='title' value='{{ $post->title }}'>
+                        
+                        </div>
+                        <div class="form-group">
+                        
+                            <label class='px-2 m-0' for="content">Post</label>
+                            <textarea class="form-control" rows="5" cols="80" id="content" name='content'>{{ $post->content }}</textarea>
+                        
+                        </div>
+                        <div class="form-group">
+                        
+                            <label>Category</label>
+                            <select name="category_id" class='form-control' id="">
+                                <option value="">Choose a Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $category->id == old('category_id', $post->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        
+                        </div>
+                        <div class="form-group">
+                        
+                            <label>Tags</label><br>
+                            
+                            @foreach($tags as $tag) 
+                                <div class="form-check form-check-inline">
+                                    <label for="form-check-label">
+                                        <input name='tags[]' type="checkbox" value='{{ $tag->id }}' {{$post->tags->contains($tag) ? 'checked' : ''}}>
+                                        {{ $tag->name }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
+                        
+                        </div>
+                        {{-- <select name="tags[]" class='form-select' multiple height='5'>
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                        </select>  --}}
+                        <div class="form-group">
 
-                        <input class='btn btn-primary mt-2' type="submit" value='Invia Modifiche'>
+                            <input class='btn btn-primary mt-2' type="submit" value='Invia Modifiche'>
+                        
+                        </div>
 
                     </form>
                 </div>

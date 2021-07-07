@@ -27,23 +27,49 @@
                     {{ __("Pubblica Un Post") }}
                     <form action="{{ route('admin.posts.store')}}" method="post">
                         @csrf
-                    
-                        <label class='py-2 m-0' for="title">Title</label>
-                        <input class="form-control" type="text" name='title' id='title'>
-                    
-                        <label class='py-2 m-0' for="content">Post</label>
-                        <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
+                        <div class="form-group">
+                        
+                            <label class='py-2 m-0' for="title">Title</label>
+                            <input class="form-control" type="text" name='title' id='title'>
+                        
+                        </div>
+                        <div class="form-group">
+                        
+                            <label class='py-2 m-0' for="content">Post</label>
+                            <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
+                        
+                        </div>
+                        <div class="form-group">
+                        
+                            <label>Category</label>
+                            <select name="category_id" class='form-control' id="">
+                                <option value="">Choose a category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        
+                        </div>
 
-
-                        <label>Category</label>
-                        <select name="category_id" class='form-control' id="">
-                            <option value="">Choose a category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        {{-- <div class="form-group">
+                        
+                            <label>Tags</label><br>
+                            
+                            @foreach($tags as $tag) 
+                                <div class="form-check form-check-inline">
+                                    <label for="form-check-label">
+                                        <input name='tags' type="checkbox" value='{{ $tag->id }}'>
+                                        {{ $tag->name }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
-
-                        <input class='btn btn-primary mt-2' type="submit" value='Publish'>
+                        
+                        </div> --}}
+                        <div class="form-group">
+                        
+                            <input class='btn btn-primary mt-2' type="submit" value='Publish'>
+                        
+                        </div>
 
                     </form>
                 </div>
