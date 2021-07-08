@@ -9,6 +9,7 @@ use App\Mail\SendNewMail;
 
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -25,6 +26,17 @@ class PostController extends Controller
         $data = [
             'posts' => Post::orderBy('created_at', 'DESC')->get()
         ];
+
+        foreach ($data['posts'] as $post) {
+            $date = $post->created_at;
+
+            $carbonDate = Carbon::parse($date);
+
+            $formattedDate = $carbonDate->format('d/m/y h:i:s');
+            $post->createdAt = $formattedDate;
+            // Cambiare timezone
+        }
+
         return view('admin.posts.index', $data);
     }
 
@@ -80,7 +92,10 @@ class PostController extends Controller
         $newPost->slug = $slug;
         // $newPost->user_id = 1;
         // $newPost->user = Auth::user()->name;
+        
         $newPost->save();
+        
+        $newPost->tags()->sync($newPostData['tags']);
 
         return redirect()->route('admin.posts.index');
     }
@@ -179,9 +194,9 @@ class PostController extends Controller
 
         // $post->tags()->sync($formData['tags']);
 
-        $storageResult = Storage::put('postCovers', $formData['postCover']);
+        // $storageResult = Storage::put('postCovers', $formData['postCover']);
 
-        $formData['cover_url'] = $storageResult;
+        // $formData['cover_url'] = $storageResult;
 
         $post->update($formData);
 

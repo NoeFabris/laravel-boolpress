@@ -20,25 +20,25 @@
 
                     <div>
                         
-                            @if(isset($post->cover_url))
-                                <img src="{{ asset('storage/ . $post->cover_url') }}" alt="">
-                            @endif
+                        @if(isset($post->cover_url))
+                            <img src="{{ asset('storage/ . $post->cover_url') }}" alt="">
+                        @endif
                         <h1>{{ $post->title }}</h1>
                         <p>{{ $post->content }}</p>
-                            @if(!isset($post->category))
-                                <em>Nessuna categoria disponibile...</em>
-                            @else 
-                                <p>Categoria : {{ $post->category->name }}</p>
-                            @endif
-                        <p>Tags:
-                            @if(count($post->tags) > 0)
+                        @if(isset($post->category))
+                            <p>Categoria : {{ $post->category->name }}</p>
+                        @else 
+                            <p><em>Nessuna categoria disponibile...</em></p>
+                        @endif
+                        @if(count($post->tags) > 0)
+                            <p>Tag : 
                                 @foreach($post->tags as $tag)
                                     <span class="badge badge-primary">{{ $tag->name }}</span>
                                 @endforeach
-                            @else
-                                <em>Nessun tag disponibile...</em>
-                            @endif
-                        </p>
+                            </p>
+                        @else
+                            <em>Nessun tag disponibile...</em>
+                        @endif
                         <p>Pubblicato da: {{ $user->name }}</p> 
                         <p>Ora pubblicazione: {{ $post->created_at }}</p>
 

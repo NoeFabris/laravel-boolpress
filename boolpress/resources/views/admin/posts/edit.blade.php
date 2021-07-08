@@ -62,16 +62,13 @@
                             @endforeach
                         
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                         
                             <label for="">Inserisci un file</label><br>
                             <input type="file" name='postCover' accept='.jpg, .png' class="form-control-file">
                         
-                        </div>                        {{-- <select name="tags[]" class='form-select' multiple height='5'>
-                            @foreach($tags as $tag)
-                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                            @endforeach
-                        </select>  --}}
+                        </div>                         --}}
+
                         <div class="form-group">
 
                             <input class='btn btn-primary mt-2' type="submit" value='Invia Modifiche'>

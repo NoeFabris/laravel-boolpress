@@ -18,11 +18,6 @@
                 </div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
                     {{ __("Pubblica Un Post") }}
                     <form action="{{ route('admin.posts.store')}}" method="post">
@@ -30,13 +25,19 @@
                         <div class="form-group">
                         
                             <label class='py-2 m-0' for="title">Title</label>
-                            <input class="form-control" type="text" name='title' id='title'>
+                            <input type="text" name='title' id='title' class="form-control @error('title') is-invalid @enderror">
+                            @error('title')
+                            <div class='invalid-feedback'>{{ $message }}</div>
+                            @enderror
                         
                         </div>
                         <div class="form-group">
                         
                             <label class='py-2 m-0' for="content">Post</label>
-                            <textarea class="form-control" rows="5" cols="80" id="content" name='content'></textarea>
+                            <textarea rows="5" cols="80" id="content" name='content' class="form-control @error('title') is-invalid @enderror"></textarea>
+                            @error('content')
+                            <div class='invalid-feedback'>{{ $message }}</div>
+                            @enderror
                         
                         </div>
                         <div class="form-group">
@@ -51,20 +52,20 @@
                         
                         </div>
 
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                         
                             <label>Tags</label><br>
                             
                             @foreach($tags as $tag) 
                                 <div class="form-check form-check-inline">
                                     <label for="form-check-label">
-                                        <input name='tags' type="checkbox" value='{{ $tag->id }}'>
+                                        <input name='tags[]' type="checkbox" value='{{ $tag->id }}'>
                                         {{ $tag->name }}
                                     </label>
                                 </div>
                             @endforeach
                         
-                        </div> --}}
+                        </div>
                         <div class="form-group">
                         
                             <input class='btn btn-primary mt-2' type="submit" value='Publish'>
