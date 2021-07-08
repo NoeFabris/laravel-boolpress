@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Post;
 use App\Category;
 use App\Tag;
+use App\Mail\SendNewMail;
 
 
 use App\Http\Controllers\Controller;
@@ -178,6 +179,10 @@ class PostController extends Controller
 
         // $post->tags()->sync($formData['tags']);
 
+        $storageResult = Storage::put('postCovers', $formData['postCover']);
+
+        $formData['cover_url'] = $storageResult;
+
         $post->update($formData);
 
         return redirect()->route('admin.posts.index');
@@ -192,8 +197,9 @@ class PostController extends Controller
     public function destroy($slug)
     {
         $post = Post::where('slug', $slug)->first();
-
+        $post->tags()->detach();
         $post->delete();
         return redirect()->route('admin.posts.index');
     }
 }
+ 

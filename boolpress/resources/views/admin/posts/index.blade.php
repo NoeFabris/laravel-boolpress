@@ -27,7 +27,7 @@
                                 <th>ID</th>
                                 <th>Titolo</th>
                                 <th>Slug</th>
-                                {{-- <th>Categoria</th> --}}
+                                <th>Categoria</th>
                                 <th>Utente</th>
                                 <th>Data Creazione</th>
                                 <th>Azioni</th>
@@ -43,7 +43,12 @@
                                     <td>{{ $post->id }}</td>
                                     <td>{{ $post->title }}</td>
                                     <td>{{ $post->slug }}</td>
-                                    {{-- <td>{{ $post->category->name }}</td> --}}
+                                    @if(!isset($post->category))
+                                        <td> ----- </td>
+                                    @else
+                                        <td>{{ $post->category->name }}</td>
+                                    @endif
+
                                     <td>{{ $post->user->name }}</td>
                                     <td>{{ $post->created_at }}</td>
                                     <td>
@@ -79,7 +84,11 @@
 
                             <h1>{{ $post->title }}</h1>
                             <p>{{ $post->content }}</p>
-                            {{-- <p>Categoria : {{ $post->category->name }}</p> --}}
+                            @if(!isset($post->category))
+                                <td> ----- </td>
+                            @else
+                                <td>{{ $post->category->name }}</td>
+                            @endif
                             <p>Pubblicato da: {{ $post->user->name }}</p>
                             <a href="{{ route('admin.posts.show', $post->slug) }}"><button class='btn btn-info'>Dettagli</button></a>
                             <a class='px-2' href="{{ route('admin.posts.edit', $post->slug) }}"><button class='btn btn-info'>Modifica</button></a>

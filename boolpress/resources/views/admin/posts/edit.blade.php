@@ -52,7 +52,6 @@
                         <div class="form-group">
                         
                             <label>Tags</label><br>
-                            
                             @foreach($tags as $tag) 
                                 <div class="form-check form-check-inline">
                                     <label for="form-check-label">
@@ -63,7 +62,12 @@
                             @endforeach
                         
                         </div>
-                        {{-- <select name="tags[]" class='form-select' multiple height='5'>
+                        <div class="form-group">
+                        
+                            <label for="">Inserisci un file</label><br>
+                            <input type="file" name='postCover' accept='.jpg, .png' class="form-control-file">
+                        
+                        </div>                        {{-- <select name="tags[]" class='form-select' multiple height='5'>
                             @foreach($tags as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                             @endforeach

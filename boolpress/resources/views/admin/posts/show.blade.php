@@ -19,15 +19,22 @@
                 <div class="card-body">
 
                     <div>
-
+                        
+                            @if(isset($post->cover_url))
+                                <img src="{{ asset('storage/ . $post->cover_url') }}" alt="">
+                            @endif
                         <h1>{{ $post->title }}</h1>
                         <p>{{ $post->content }}</p>
-                        <p>Categoria : {{ $post->category->name }}</p>
+                            @if(!isset($post->category))
+                                <em>Nessuna categoria disponibile...</em>
+                            @else 
+                                <p>Categoria : {{ $post->category->name }}</p>
+                            @endif
                         <p>Tags:
-                            @foreach($post->tags as $tag)
-                                <span class="badge badge-primary">{{ $tag->name }}</span>
-                            @endforeach
                             @if(count($post->tags) > 0)
+                                @foreach($post->tags as $tag)
+                                    <span class="badge badge-primary">{{ $tag->name }}</span>
+                                @endforeach
                             @else
                                 <em>Nessun tag disponibile...</em>
                             @endif
