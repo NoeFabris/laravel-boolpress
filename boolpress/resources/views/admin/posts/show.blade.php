@@ -21,7 +21,7 @@
                     <div>
                         
                         @if(isset($post->cover_url))
-                            <img src="{{ asset('storage/ . $post->cover_url') }}" alt="">
+                            <img class='img-fluid' src="{{ asset('storage/' . $post->cover_url) }}" alt="">
                         @endif
                         <h1>{{ $post->title }}</h1>
                         <p>{{ $post->content }}</p>

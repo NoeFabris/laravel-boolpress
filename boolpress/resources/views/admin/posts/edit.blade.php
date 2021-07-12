@@ -23,7 +23,7 @@
                     @endif
 
                     {{ __("Pubblica Un Post") }}
-                    <form action="{{ route('admin.posts.update', $post->slug)}}" method="post">
+                    <form action="{{ route('admin.posts.update', $post->slug)}}" method="post" enctype='multipart/form-data'>
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -62,12 +62,12 @@
                             @endforeach
                         
                         </div>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                         
                             <label for="">Inserisci un file</label><br>
                             <input type="file" name='postCover' accept='.jpg, .png' class="form-control-file">
                         
-                        </div>                         --}}
+                        </div>                        
 
                         <div class="form-group">
 

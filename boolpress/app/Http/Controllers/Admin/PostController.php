@@ -11,6 +11,7 @@ use App\Mail\SendNewMail;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -90,12 +91,25 @@ class PostController extends Controller
         }
 
         $newPost->slug = $slug;
+
+        if (key_exists('postCover', $newPostData)) {
+
+            $fileUploaded = Storage::put('postCovers', $newPostData['postCover']);
+            $newPost['cover_url'] = $fileUploaded;
+
+        }
+
+        
         // $newPost->user_id = 1;
         // $newPost->user = Auth::user()->name;
         
         $newPost->save();
         
-        $newPost->tags()->sync($newPostData['tags']);
+        if(key_exists('tags', $newPostData)){
+
+            $newPost->tags()->sync($newPostData['tags']);
+            
+        }
 
         return redirect()->route('admin.posts.index');
     }
@@ -188,6 +202,17 @@ class PostController extends Controller
         if (!key_exists('tags', $formData)) {
             $formData['tags'] = []; 
         }
+
+        if (key_exists('postCover', $formData)) {
+            if ($post->cover_url) {
+                Storage::delete($post->cover_url);
+            }
+
+            $fileUploaded = Storage::put('postCovers', $formData['postCover']);
+            $formData['cover_url'] = $fileUploaded;
+            
+        }
+
 
         $post->tags()->detach();
         $post->tags()->attach($formData['tags']);

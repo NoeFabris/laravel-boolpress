@@ -20,7 +20,7 @@
                 <div class="card-body">
 
                     {{ __("Pubblica Un Post") }}
-                    <form action="{{ route('admin.posts.store')}}" method="post">
+                    <form action="{{ route('admin.posts.store')}}" method="post" enctype='multipart/form-data'>
                         @csrf
                         <div class="form-group">
                         
@@ -66,6 +66,12 @@
                             @endforeach
                         
                         </div>
+                        <div class="form-group">
+                        
+                            <label for="">Inserisci un file</label><br>
+                            <input type="file" name='postCover' accept='.jpg, .png' class="form-control-file">
+                        
+                        </div>   
                         <div class="form-group">
                         
                             <input class='btn btn-primary mt-2' type="submit" value='Publish'>

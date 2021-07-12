@@ -22,9 +22,6 @@
                     @foreach($posts as $post)
                         <div class='mt-3'>
 
-                            @if(isset($post->cover_url))
-                                <img src="{{ asset('storage/ . $post->cover_url') }}" alt="">
-                            @endif
                             <h1>Titolo: {{ $post->title }}</h1>
                             <p>Id: {{ $post->id }}</p>
                             {{-- <p>Contenuto: {{ $post->content }}</p> --}}
