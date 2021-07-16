@@ -13,6 +13,15 @@
                     </div>
                 
                 </div>
+                
+{{-- 
+                <div v-for='i in 10' :key='i'>
+                    <span v-text='"testo di Vue" + i'></span>
+                </div> --}}
+
+                <post-card>
+
+                </post-card>
 
                 <div class="card-body">
 
